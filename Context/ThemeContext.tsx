@@ -52,7 +52,7 @@ interface BorderColorsType {
     disabledBorder: string;
 }
 
-interface ThemeType {
+export interface ThemeType {
     colors: ColorsType;
     textColors: TextColorsType;
     buttonColors: ButtonColorsType;

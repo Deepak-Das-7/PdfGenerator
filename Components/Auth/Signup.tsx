@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Platform, Alert, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, Pressable, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { ThemeContext } from '../../Context/ThemeContext';
+import { ThemeContext, ThemeType } from '../../Context/ThemeContext';
 import { Picker } from '@react-native-picker/picker';
 import { userTypes } from '@/Constants/User';
 
@@ -52,37 +52,40 @@ const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
         onSubmit(formData);
     };
 
+    const styles = createStyles(theme);
+
     return (
-        <View style={[styles.container, { backgroundColor: theme.colors.surface }]}>
-            <Text style={[styles.label, { color: theme.textColors.primaryText }]}>User type</Text>
+        <View style={styles.container}>
+            <Text style={styles.header}>Registration</Text>
+            <Text style={styles.label}>User type</Text>
             <Picker
                 selectedValue={type}
                 onValueChange={(itemValue) => setType(itemValue)}
-                style={[styles.input, { borderColor: theme.borderColors.defaultBorder, color: theme.textColors.primaryText }]}
+                style={styles.input}
             >
                 {userTypes?.map(option => (
                     <Picker.Item key={option.value} label={option.label} value={option.value} />
                 ))}
             </Picker>
-            <Text style={[styles.label, { color: theme.textColors.primaryText }]}>First Name</Text>
+            <Text style={styles.label}>First Name</Text>
             <TextInput
-                style={[styles.input, { borderColor: theme.borderColors.defaultBorder, color: theme.textColors.primaryText }]}
+                style={styles.input}
                 placeholder="Enter your first name"
                 placeholderTextColor={theme.textColors.placeholderText}
                 value={firstName}
                 onChangeText={setFirstName}
             />
-            <Text style={[styles.label, { color: theme.textColors.primaryText }]}>Last Name</Text>
+            <Text style={styles.label}>Last Name</Text>
             <TextInput
-                style={[styles.input, { borderColor: theme.borderColors.defaultBorder, color: theme.textColors.primaryText }]}
+                style={styles.input}
                 placeholder="Enter your last name"
                 placeholderTextColor={theme.textColors.placeholderText}
                 value={lastName}
                 onChangeText={setLastName}
             />
-            <Text style={[styles.label, { color: theme.textColors.primaryText }]}>Email address</Text>
+            <Text style={styles.label}>Email address</Text>
             <TextInput
-                style={[styles.input, { borderColor: theme.borderColors.defaultBorder, color: theme.textColors.primaryText }]}
+                style={styles.input}
                 placeholder="Enter your email"
                 placeholderTextColor={theme.textColors.placeholderText}
                 value={email}
@@ -90,9 +93,9 @@ const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
-            <Text style={[styles.label, { color: theme.textColors.primaryText }]}>Password</Text>
+            <Text style={styles.label}>Password</Text>
             <TextInput
-                style={[styles.input, { borderColor: theme.borderColors.defaultBorder, color: theme.textColors.primaryText }]}
+                style={styles.input}
                 placeholder="Enter your password"
                 placeholderTextColor={theme.textColors.placeholderText}
                 value={password}
@@ -100,10 +103,10 @@ const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
                 secureTextEntry
                 autoCapitalize="none"
             />
-            <Text style={[styles.label, { color: theme.textColors.primaryText }]}>Date of Birth</Text>
+            <Text style={styles.label}>Date of Birth</Text>
             <View style={styles.dateContainer}>
                 <TextInput
-                    style={[styles.input, styles.dateInput, { borderColor: theme.borderColors.defaultBorder, color: theme.textColors.primaryText }]}
+                    style={styles.dateInput}
                     placeholder="Enter date 2000-01-13"
                     value={dateOfBirth ? dateOfBirth.toISOString().split('T')[0] : ''}
                     editable={false}
@@ -121,40 +124,81 @@ const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
                     onChange={handleDateChange}
                 />
             )}
-            <Button
-                title="Sign Up"
+            <TouchableOpacity
+                style={styles.button}
                 onPress={handleSubmit}
-                color={theme.buttonColors.primaryButtonBackground}
-            />
+            >
+                <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
         </View>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-        padding: 16,
-        borderRadius: 4,
-    },
-    label: {
-        fontSize: 16,
-        marginBottom: 8,
-    },
-    input: {
-        height: 40,
-        borderWidth: 1,
-        borderRadius: 4,
-        paddingHorizontal: 8,
-        marginBottom: 16,
-    },
-    dateContainer: {
-        flexDirection: 'row',
-        gap: 5
-        // alignItems: 'center',
-    },
-    dateInput: {
-        flex: 1,
-    },
-});
+const createStyles = (theme: ThemeType) =>
+    StyleSheet.create({
+        container: {
+            width: '100%',
+            padding: 16,
+            borderRadius: 8,
+            backgroundColor: theme.colors.surface,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 5,
+        },
+        header: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            marginBottom: 20,
+            textAlign: "center",
+            color: theme.textColors.primaryText,
+        },
+        formGroup: {
+            marginBottom: 16,
+        },
+        label: {
+            fontSize: 12,
+            fontWeight: '600',
+            color: theme.textColors.primaryText,
+        },
+        input: {
+            height: 40,
+            borderWidth: 0.5,
+            borderRadius: 7,
+            paddingHorizontal: 12,
+            marginBottom: 8,
+            borderColor: theme.borderColors.defaultBorder,
+            color: theme.textColors.primaryText,
+        },
+        dateContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 16,
+        },
+        dateInput: {
+            flex: 1,
+            height: 40,
+            borderWidth: 1,
+            borderRadius: 7,
+            paddingHorizontal: 8,
+            borderColor: theme.borderColors.defaultBorder,
+            color: theme.textColors.primaryText,
+            marginRight: 10,
+        },
+        button: {
+            height: 48,
+            borderRadius: 8,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: theme.buttonColors.successButtonBackground,
+            marginBottom: 12,
+        },
+        buttonText: {
+            fontSize: 16,
+            fontWeight: 'bold',
+            color: theme.buttonColors.primaryButtonText,
+        },
+    });
 
 export default Signup;
