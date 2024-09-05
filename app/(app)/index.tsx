@@ -13,10 +13,11 @@ export default function Index() {
             const storedToken = await AsyncStorage.getItem('token');
             console.log("Checking auth =", storedToken);
             if (!storedToken) {
-                router.replace('/auth');
+                router.replace('/(tabs)/Home');
+                // router.replace('/profile');
+                // router.replace('/auth');
             } else {
                 router.replace('/profile');
-                // router.replace('/Dashboard/Course/');
             }
         };
 

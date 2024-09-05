@@ -27,6 +27,8 @@ const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
     const [showPicker, setShowPicker] = useState<boolean>(false);
 
     const { theme } = useContext(ThemeContext);
+    const styles = createStyles(theme);
+
 
     const handleDateChange = (event: any, selectedDate?: Date) => {
         const currentDate = selectedDate || new Date();
@@ -52,7 +54,6 @@ const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
         onSubmit(formData);
     };
 
-    const styles = createStyles(theme);
 
     return (
         <View style={styles.container}>
